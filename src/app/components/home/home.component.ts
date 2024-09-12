@@ -1,26 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'; // Para os ícones
-import { Router, RouterModule } from '@angular/router'; 
-
+import { MatCardModule } from '@angular/material/card';
 @Component({
-  selector: 'app-nav',
+  selector: 'app-home',
   standalone: true,
   imports: [ MatSidenavModule,
     MatListModule,
     MatButtonModule,
     MatIconModule,
-    RouterModule],
-  templateUrl: './nav.component.html',
-  styleUrl: './nav.component.css'
+    MatCardModule
+  ],
+  templateUrl: './home.component.html',
+  styleUrl: './home.component.css'
 })
-export class NavComponent implements OnInit {
-  constructor(private router: Router){}
-  
-  ngOnInit(): void {
-    this.router.navigate(['home']);
-  }
+export class HomeComponent {
 
 }
