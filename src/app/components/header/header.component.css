@@ -1,0 +1,13 @@
+.container{
+    display: flex;
+    align-items: center ;
+    justify-content: center;
+    height: 10%;
+}
+h1 {
+    margin-top: 1rem;
+    border: 1px solid lightgrey;
+    padding: 1px 10%;
+    border-radius: 2rem;
+    font-size: 18px;
+}
