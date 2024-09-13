@@ -2,13 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 // Para trabalhar com formulários no Angular 12
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
-// Para realizar requisições HTTP
-import { HttpClientModule } from '@angular/common/http';
 
 // Imports para componentes do Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,16 +23,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { NavComponent } from './components/nav/nav.component';
+import { LoginComponent } from './components/login/login.component';
+
 @NgModule({
   declarations: [AppComponent
-    ,NavComponent],
+    ,NavComponent, LoginComponent],
   imports: [
     CommonModule,
     // Forms
     FormsModule,
     ReactiveFormsModule,
-    // Requisições http
-    HttpClientModule,
     // Angular Material
     MatFormFieldModule,
     MatPaginatorModule,
@@ -50,8 +47,9 @@ import { NavComponent } from './components/nav/nav.component';
     MatTableModule,
     MatIconModule,
     MatListModule,
-    MatCardModule
-
-  ]
+    MatCardModule,
+  ],
+  providers: [],
+  bootstrap: [AppComponent]
 })
 export class AppModule { }
