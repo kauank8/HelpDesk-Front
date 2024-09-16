@@ -5,6 +5,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon'; // Para os ícones
 import { Router, RouterModule } from '@angular/router'; 
 import { HeaderComponent } from '../header/header.component';
+import { AuthService } from '../../services/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { timeout } from 'rxjs';
 @Component({
   selector: 'app-nav',
   standalone: true,
@@ -18,10 +21,17 @@ import { HeaderComponent } from '../header/header.component';
   styleUrl: './nav.component.css'
 })
 export class NavComponent implements OnInit {
-  constructor(private router: Router){}
+  constructor(private router: Router,
+    private authService: AuthService,
+    private toast: ToastrService
+  ){}
   
   ngOnInit(): void {
     this.router.navigate(['home']);
   }
-
+  logout(){
+    this.router.navigate(['login'])
+    this.authService.logout();
+    this.toast.info('Logout realizado com sucesso','Logout',{timeOut:7000, progressBar:true, closeButton:true})
+  }
 }

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 
 // Para trabalhar com formulários no Angular 12
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-
+import { HttpClientModule } from '@angular/common/http';
 // Imports para componentes do Angular Material
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -27,7 +27,7 @@ import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [AppComponent
-    ,NavComponent, LoginComponent],
+    ,NavComponent],
   imports: [
     CommonModule,
     // Forms
@@ -48,6 +48,7 @@ import { LoginComponent } from './components/login/login.component';
     MatIconModule,
     MatListModule,
     MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

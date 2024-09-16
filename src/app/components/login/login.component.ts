@@ -4,13 +4,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { Credenciais } from '../../models/credenciais';
 import { FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from '../../services/auth.service';
+import { HttpClientModule, HttpHeaderResponse } from '@angular/common/http';
+import { HttpHandler } from '@angular/common/http';
+import { timeout } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({ 
   standalone: true,
   imports:[MatButtonModule,
     MatInputModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClientModule,
+    
   ],
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,20 +34,22 @@ export class LoginComponent implements OnInit {
   email = new FormControl('',[Validators.required, Validators.email]);
   senha = new FormControl('', [Validators.required, Validators.minLength(3)]);
 
-  constructor(private toastr: ToastrService) {}
+  constructor(private toastr: ToastrService, private service: AuthService, private router: Router ) {
+  }
   ngOnInit(): void {
   }
 
   validaCampos(): boolean{
-    if(this.email.valid && this.senha.valid){
-      return true;
-    }else{
-      return false;
-    }
+    return this.email.valid && this.senha.valid
   }
+
   logar(){
-    this.toastr.success('Login','Teste',{timeOut: 5000, closeButton: true, progressBar: true})
-    this.creds.senha =''
+    this.service.authenticate(this.creds).subscribe(resposta => {
+      this.service.successfulLogin(resposta.headers.get('Authorization').substring(7));
+      this.router.navigate(['']);
+    },() =>{
+      this.toastr.error('Usuário e/ou senha inválido');
+    });
   }
 
 }
