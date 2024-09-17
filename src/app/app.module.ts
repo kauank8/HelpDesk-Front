@@ -24,6 +24,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { NavComponent } from './components/nav/nav.component';
 import { LoginComponent } from './components/login/login.component';
+import { authInterceptorProvider } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent
@@ -50,7 +51,7 @@ import { LoginComponent } from './components/login/login.component';
     MatCardModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [authInterceptorProvider],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
