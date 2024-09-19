@@ -7,9 +7,12 @@ import { MatHint } from '@angular/material/form-field';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { TecnicoService } from '../../../services/tecnico.service';
+import { Tecnico } from '../../../models/tecnico';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-tecnico-create',
@@ -33,17 +36,59 @@ import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
   styleUrl: './tecnico-create.component.css'
 })
 export class TecnicoCreateComponent {
+
+tecnico: Tecnico = {
+  id:'',
+  nome:'',
+  cpf:'',
+  email:'',
+  senha:'',
+  perfis: [],
+  dataCriacao:''
+}  
 nome: FormControl = new FormControl(null, Validators.minLength(3));
 cpf: FormControl = new FormControl(null, Validators.required);
 email: FormControl = new FormControl(null, Validators.email);
 senha: FormControl = new FormControl(null, Validators.minLength(3));
 
-constructor(){
+constructor(private service: TecnicoService,
+  private toast: ToastrService,
+  private router: Router
+){
+}
 
+
+
+create():void{
+  this.service.crete(this.tecnico).subscribe(() =>{
+    this.toast.success('Tecnico cadastrado com sucesso', 'Cadastro')
+    this.router.navigate(['tecnicos'])
+  }, ex=>{
+    console.log(ex)
+    if(ex.error.errors){
+      ex.error.errors.forEach(element =>{
+        this.toast.error('Cpf invalido', 'Cpf')
+      })
+    }
+    else{
+      this.toast.error(ex.error.message)
+    }
+  })
+}
+
+addPerfil(perfil: any): void{
+
+  if(this.tecnico.perfis.includes(perfil)){
+    this.tecnico.perfis.splice(this.tecnico.perfis.indexOf(perfil), 1);
+  }
+  else{
+    this.tecnico.perfis.push(perfil)
+  }
 }
 
 validaCampos():boolean{
   return this.nome.valid && this.cpf.valid 
   && this.email.valid && this.senha.valid
 }
+
 }
