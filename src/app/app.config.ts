@@ -9,7 +9,7 @@ import { provideToastr } from 'ngx-toastr'
 import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { HttpInterceptor } from '@angular/common/http';
 import { authInterceptor } from './interceptors/auth.interceptor';
-
+import { IConfig, provideEnvironmentNgxMask } from 'ngx-mask'
 
 
 export const appConfig: ApplicationConfig = {
@@ -18,7 +18,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([
         authInterceptor
   ])
-    ),
+    ), provideEnvironmentNgxMask(), 
     
     ]}
 ;
