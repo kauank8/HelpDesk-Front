@@ -60,14 +60,13 @@ constructor(private service: TecnicoService,
 
 
 create():void{
-  this.service.crete(this.tecnico).subscribe(() =>{
-    this.toast.success('Tecnico cadastrado com sucesso', 'Cadastro')
+  this.service.create(this.tecnico).subscribe(() =>{
+    this.toast.success('Tecnico cadastrado com sucesso', 'Cadastro', {timeOut:4000, progressBar:true, closeButton:true})
     this.router.navigate(['tecnicos'])
   }, ex=>{
-    console.log(ex)
     if(ex.error.errors){
       ex.error.errors.forEach(element =>{
-        this.toast.error('Cpf invalido', 'Cpf')
+        this.toast.error('Cpf invalido', 'Cpf', {timeOut:5000, progressBar:true, closeButton:true})
       })
     }
     else{
