@@ -1,28 +1,26 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {FormControl, FormsModule, Validators} from '@angular/forms';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatOption } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatFormField, MatLabel, MatHint, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
-import { MatHint } from '@angular/material/form-field';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import { Router, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
+import { MatSelect } from '@angular/material/select';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgxMaskDirective, NgxMaskPipe } from 'ngx-mask';
 import { ToastrService } from 'ngx-toastr';
-import { MatFormFieldControl } from '@angular/material/form-field';
-import { MatSelect, MatOption } from '@angular/material/select';
-import {MatDividerModule} from '@angular/material/divider';
+import { Chamado } from '../../../models/chamado';
 import { Cliente } from '../../../models/cliente';
 import { Tecnico } from '../../../models/tecnico';
+import { ChamadoService } from '../../../services/chamado.service';
 import { ClienteService } from '../../../services/cliente.service';
 import { TecnicoService } from '../../../services/tecnico.service';
-import { ChamadoService } from '../../../services/chamado.service';
-import { CommonModule } from '@angular/common';
-import { Chamado } from '../../../models/chamado';
+
 @Component({
-  selector: 'app-chamado-create',
+  selector: 'app-chamado-update',
   standalone: true,
   imports: [MatCheckboxModule,
     FormsModule,
@@ -40,12 +38,11 @@ import { Chamado } from '../../../models/chamado';
     MatSelect,
     MatOption,
     MatDividerModule,
-    CommonModule
-  ],
-  templateUrl: './chamado-create.component.html',
-  styleUrl: './chamado-create.component.css'
+    CommonModule],
+  templateUrl: './chamado-update.component.html',
+  styleUrl: './chamado-update.component.css'
 })
-export class ChamadoCreateComponent implements OnInit {
+export class ChamadoUpdateComponent implements OnInit {
   
   chamado: Chamado = {
     prioridade:  '',
@@ -73,17 +70,29 @@ export class ChamadoCreateComponent implements OnInit {
     private clienteService:ClienteService,
     private tecnicoService:TecnicoService,
     private toastService: ToastrService,
-    private router:Router
+    private router:Router,
+    private activedRoute: ActivatedRoute
   ){}
   
   ngOnInit(): void {
+    this.chamado.id  = this.activedRoute.snapshot.paramMap.get('id')
+    this.findById();
     this.findAllClientes();
     this.findAllTecnicos();
   }
 
-  create():void{
-    this.service.create(this.chamado).subscribe(resposta =>{
-      this.toastService.success('Chamado criado com sucesso', 'Novo chamado', 
+  findById():void{
+    this.service.findById(this.chamado.id).subscribe(resposta =>{
+      this.chamado = resposta;
+    }, ex=>{
+      this.toastService.error(ex.error.message,'Erro',
+        {timeOut:4000, closeButton:true, progressBar:true});
+    })
+  }
+
+  update():void{
+    this.service.update(this.chamado).subscribe(resposta =>{
+      this.toastService.success('Chamado atualiazado com sucesso', 'Ataulização de chamado', 
         {timeOut:4000, closeButton:true, progressBar:true});
         this.router.navigate(['chamados'])
     }, ex=>{
@@ -103,9 +112,30 @@ export class ChamadoCreateComponent implements OnInit {
       this.tecnicos = resposta;
     })
   }
+
   validaCampos():boolean{
     return this.prioridade.valid && this.status.valid && this.titulo.valid 
        && this.observacoes.valid && this.tecnico.valid && this.cliente.valid
 
+  }
+
+  retornaStatus(status:any):string{
+    if(status == '0'){
+      return 'ABERTO'
+    }else if(status=='1'){
+      return 'EM ANDAMENTO'
+    } else{
+      return 'ENCERRADO'
+    }
+  }
+
+  retornaPrioridade(prioridade:any):string{
+    if(prioridade == '0'){
+      return 'BAIXA'
+    }else if(prioridade=='1'){
+      return 'MÉDIA'
+    } else{
+      return 'ALTA'
+    }
   }
 }
