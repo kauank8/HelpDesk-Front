@@ -12,6 +12,7 @@ import { ClienteDeleteComponent } from './components/cliente/cliente-delete/clie
 import { ClienteListComponent } from './components/cliente/cliente-list/cliente-list.component';
 import { ClienteUpdateComponent } from './components/cliente/cliente-update/cliente-update.component';
 import { ChamadoListComponent } from './components/chamado/chamado-list/chamado-list.component';
+import { ChamadoCreateComponent } from './components/chamado/chamado-create/chamado-create.component';
 
 export const routes: Routes = [
     {
@@ -37,7 +38,9 @@ export const routes: Routes = [
 
             {path: 'clientes/delete/:id',component: ClienteDeleteComponent},
 
-            {path: 'chamados',component: ChamadoListComponent}
+            {path: 'chamados',component: ChamadoListComponent},
+
+            {path: 'chamados/create', component: ChamadoCreateComponent}
         ]
     }
 ];
