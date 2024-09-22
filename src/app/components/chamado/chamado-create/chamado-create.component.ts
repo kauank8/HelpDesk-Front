@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {FormControl, FormsModule, Validators} from '@angular/forms';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
@@ -14,6 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { MatSelect, MatOption } from '@angular/material/select';
 import {MatDividerModule} from '@angular/material/divider';
+
 @Component({
   selector: 'app-chamado-create',
   standalone: true,
@@ -37,6 +38,21 @@ import {MatDividerModule} from '@angular/material/divider';
   templateUrl: './chamado-create.component.html',
   styleUrl: './chamado-create.component.css'
 })
-export class ChamadoCreateComponent {
+export class ChamadoCreateComponent implements OnInit {
+  
+  ngOnInit(): void {
+  }
 
+  prioridade: FormControl = new FormControl(null, [Validators.required]);
+  status:     FormControl = new FormControl(null, [Validators.required]);
+  titulo:     FormControl = new FormControl(null, [Validators.required]);
+  observacoes:FormControl = new FormControl(null, [Validators.required]);
+  tecnico:    FormControl = new FormControl(null, [Validators.required]);
+  cliente:    FormControl = new FormControl(null, [Validators.required]);
+
+  validaCampos():boolean{
+    return this.prioridade.valid && this.status.valid && this.titulo.valid 
+       && this.observacoes.valid && this.tecnico.valid && this.cliente.valid
+
+  }
 }
