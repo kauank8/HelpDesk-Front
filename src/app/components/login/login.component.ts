@@ -9,6 +9,7 @@ import { HttpClientModule, HttpHeaderResponse } from '@angular/common/http';
 import { HttpHandler } from '@angular/common/http';
 import { timeout } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({ 
@@ -17,7 +18,7 @@ import { Router } from '@angular/router';
     MatInputModule,
     ReactiveFormsModule,
     HttpClientModule,
-    
+    MatIcon
   ],
   selector: 'app-login',
   templateUrl: './login.component.html',
